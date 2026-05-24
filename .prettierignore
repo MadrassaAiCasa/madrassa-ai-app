@@ -5,3 +5,5 @@ build/
 .cache/
 .env
 .env.*
+package-lock.json
+package.json
