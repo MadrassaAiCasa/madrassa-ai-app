@@ -15,6 +15,19 @@
 - Never use `git push origin --delete` — delete remote branches manually via GitHub UI or ask user
 - The `develop` branch is protected — all changes must go through PRs
 
+## Issue Resolution Workflow
+
+When an issue is detected and a solution is found/applied:
+
+1. User asks: **"generate a TS (for tech story) or US (for user story)"**
+2. Provide the following for validation:
+    - **Short description:** One-line summary of what we handle
+    - **Description:** Why and What we need and how to do it
+    - **Branch:** `TS-xxx/short_description` or `US-xxx/short_description` (ticket number provided by user)
+3. If validated → create branch from last commit on `develop` with the validated name
+4. Do the work, commit with separated concerns (e.g., config in one commit, format in another)
+5. **Validate before committing** — show what will be committed and get confirmation
+
 ## Commit Messages
 
 - Keep commit titles short (under 72 characters)
