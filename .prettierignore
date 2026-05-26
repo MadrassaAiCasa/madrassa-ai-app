@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+.vite/
+.cache/
+.env
+.env.*
+package-lock.json
+package.json
