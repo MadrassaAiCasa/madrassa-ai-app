@@ -10,6 +10,79 @@
 - Run `npm run lint` and `npm run format` before committing to ensure code passes linting and formatting checks
 - **Never run `npm run format` without explicit validation** — format changes files, confirm with user first
 
+## Architecture
+
+### Feature-Based Structure
+
+```
+src/
+  features/
+    auth/
+    users/
+  shared/
+    ui/          → design system primitives (Button, Input, Card)
+    hooks/       → cross-feature hooks
+    components/  → cross-feature shared components
+```
+
+Each feature is self-contained with its own pages, components, api, hooks, types, utils.
+
+### Per-Feature Internal Structure
+
+```
+features/
+  auth/
+    components/
+    api/
+    hooks/
+    types/
+    utils/
+    constants/
+    index.ts      → public exports
+```
+
+### Per-Component Internal Structure (co-located)
+
+```
+UserCard/
+  UserCard.tsx
+  UserCard.module.css
+  UserCard.test.tsx
+  index.ts
+```
+
+### Route Config Structure
+
+```
+pages/ → route view components (thin, connect routing to children)
+routes/
+  index.tsx         → all Routes defined here
+  paths.ts          → path constants
+  ProtectedRoute.tsx → auth guard wrapper
+```
+
+- `pages/` for route views only — no routing logic
+- `paths.ts` centralizes all path strings
+- `ProtectedRoute` redirects unauthenticated users to `/login`
+
+### Presentation/Logic Separation
+
+Use **hooks** to extract logic — no container/wrapper components.
+
+```
+hooks/useUsers.ts → all data/logic
+UserList.tsx      → just presentation, calls useUsers()
+```
+
+### MSW API Mocking
+
+When frontend and backend are out of sync, MSW intercepts API calls at the network layer.
+
+- **Handler organization:** one file per resource domain (`auth.ts`, `users.ts`), merged in `handlers/index.ts`
+- **Mock toggle:** `VITE_USE_MOCKS=true` env var in `.env.development`. Off by default.
+- **No runtime toggle** — only env var keeps it simple and safe.
+- **Introduced when first needed** — not its own TS, included with the first TS/US that uses an API call.
+
 ## Git
 
 - Never use `git push origin --delete` — delete remote branches manually via GitHub UI or ask user
