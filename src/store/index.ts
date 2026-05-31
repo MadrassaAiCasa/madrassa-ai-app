@@ -12,3 +12,4 @@ export type AppDispatch = typeof store.dispatch;
 
 export { setCredentials, clearCredentials, setLoading } from './authSlice';
 export type { AuthState, AuthTokens } from './authSlice';
+export { useAuth } from './useAuth';
