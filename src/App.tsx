@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { useAuth } from './store';
 import { ProtectedRoute, LoginForm } from './components/auth';
+import enableMocking from './mocks/setUp';
 import './App.css';
 
 const theme = createTheme({
@@ -41,6 +42,18 @@ const AppContent = () => {
 };
 
 function App() {
+    const [isReady, setIsReady] = useState(false);
+
+    useEffect(() => {
+        enableMocking().then(() => {
+            setIsReady(true);
+        });
+    }, []);
+
+    if (!isReady) {
+        return null;
+    }
+
     return (
         <Provider store={store}>
             <ThemeProvider theme={theme}>
