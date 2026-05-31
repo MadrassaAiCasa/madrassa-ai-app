@@ -7,7 +7,7 @@
 - [x] TS-1025: useAuth Hook — typed hook wrapping useSelector/useDispatch for auth state
 - [x] TS-1023: ProtectedRoute — redirects to /login if unauthenticated, shows spinner while checking session
 - [x] TS-1024: LoginForm UI — username/email + password form, error display, loading state
-- [ ] TS-1026: App Auth Wiring — MUI ThemeProvider + Redux Provider + Router + ProtectedRoute + session restore in App.tsx
+- [x] TS-1026: App Auth Wiring — MUI ThemeProvider + Redux Provider + Router + ProtectedRoute + session restore in App.tsx
 
 ## Login & Session
 
@@ -19,3 +19,4 @@
 | TS-1023 | ProtectedRoute   | ✅ Done | [TS-1023_protected_route.md](./login-and-session/TS-1023_protected_route.md)   |
 | TS-1024 | LoginForm        | ✅ Done | [TS-1024_login_form.md](./login-and-session/TS-1024_login_form.md)             |
 | TS-1025 | useAuth Hook     | ✅ Done | [TS-1025_use_auth_hook.md](./login-and-session/TS-1025_use_auth_hook.md)       |
+| TS-1026 | App Auth Wiring  | ✅ Done | [TS-1026_app_auth_wiring.md](./login-and-session/TS-1026_app_auth_wiring.md)   |
