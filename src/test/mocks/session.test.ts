@@ -1,9 +1,13 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, beforeAll, afterEach, afterAll } from 'vitest';
+import { server } from '../../mocks/server';
 import { mockStore } from '../../mocks/handlers/auth';
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 describe('GET /auth/session', () => {
     beforeEach(() => {
-        // Reset refresh token expiry to 24 hours (valid)
         mockStore.refreshTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
     });
 
@@ -14,7 +18,6 @@ describe('GET /auth/session', () => {
     });
 
     it('returns 401 when refresh token is expired', async () => {
-        // Set refresh token to expired
         mockStore.refreshTokenExpiresAt = new Date(Date.now() - 1000).toISOString();
 
         const response = await fetch('/auth/session', {
