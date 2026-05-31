@@ -72,4 +72,26 @@ export default [
             'react/react-in-jsx-scope': 'off',
         },
     },
+    {
+        files: ['src/test/**/*'],
+        languageOptions: {
+            parser: tsparser,
+            parserOptions: {
+                ecmaVersion: 2020,
+                sourceType: 'module',
+            },
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+                ...globals.jest,
+                describe: 'readonly',
+                it: 'readonly',
+                expect: 'readonly',
+                beforeAll: 'readonly',
+                afterEach: 'readonly',
+                afterAll: 'readonly',
+                vi: 'readonly',
+            },
+        },
+    },
 ];
