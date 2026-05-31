@@ -1,9 +1,13 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, beforeAll, afterEach, afterAll } from 'vitest';
+import { server } from '../../mocks/server';
 import { mockStore } from '../../mocks/handlers/auth';
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 describe('POST /auth/login', () => {
     beforeEach(() => {
-        // Reset auth state before each test
         mockStore.isAuthenticated = false;
     });
 

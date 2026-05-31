@@ -2,7 +2,7 @@
 
 ## Next Features
 
-- [ ] TS-1022: Auth API Service — axios instance + endpoints (login, getSession, refresh, logout), auto-refresh interceptor
+- [x] TS-1022: Auth API Service — axios instance + endpoints (login, getSession, refresh, logout), auto-refresh interceptor
 - [ ] TS-1021: Auth Redux Slice — auth state (user, tokens, isAuthenticated), reducers (setCredentials, clearCredentials, setLoading)
 - [ ] TS-1025: useAuth Hook — typed hook wrapping useSelector/useDispatch for auth state
 - [ ] TS-1023: ProtectedRoute — redirects to /login if unauthenticated, shows spinner while checking session
@@ -11,6 +11,7 @@
 
 ## Login & Session
 
-| TS      | Title     | Status  | Doc                                                              |
-| ------- | --------- | ------- | ---------------------------------------------------------------- |
-| TS-1020 | MSW Setup | ✅ Done | [TS-1020_msw_setup.md](./login-and-session/TS-1020_msw_setup.md) |
+| TS      | Title            | Status  | Doc                                                                            |
+| ------- | ---------------- | ------- | ------------------------------------------------------------------------------ |
+| TS-1020 | MSW Setup        | ✅ Done | [TS-1020_msw_setup.md](./login-and-session/TS-1020_msw_setup.md)               |
+| TS-1022 | Auth API Service | ✅ Done | [TS-1022_auth_api_service.md](./login-and-session/TS-1022_auth_api_service.md) |
