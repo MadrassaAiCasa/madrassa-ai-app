@@ -1,4 +1,4 @@
-import { apiClient, setAccessToken, getAccessToken } from '../client';
+import { apiClient, setAccessToken, getAccessToken } from './client';
 import type { LoginRequest, LoginResponse, SessionResponse, RefreshResponse } from './types';
 
 export { setAccessToken, getAccessToken };

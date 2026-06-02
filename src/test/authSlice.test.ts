@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import authReducer, { setCredentials, clearCredentials, setLoading } from '../store/authSlice';
-import type { AuthState } from '../store/authSlice';
+import authReducer, {
+    setCredentials,
+    clearCredentials,
+    setLoading,
+} from '@/features/auth/store/authSlice';
+import type { AuthState } from '@/features/auth/store/authSlice';
 
 describe('authSlice', () => {
     const initialState: AuthState = {

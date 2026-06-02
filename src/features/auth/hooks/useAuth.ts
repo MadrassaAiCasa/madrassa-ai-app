@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from './hooks';
-import { setCredentials, clearCredentials, setLoading } from './authSlice';
-import { authApi } from '../api/auth';
-import type { LoginRequest } from '../api/auth';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks';
+import { setCredentials, clearCredentials, setLoading } from '../store/authSlice';
+import { authApi } from '../api';
+import type { LoginRequest } from '../api';
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();

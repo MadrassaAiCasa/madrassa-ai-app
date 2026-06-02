@@ -1,19 +1,19 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { CircularProgress, Box } from '@mui/material';
-import { useAuth } from '../../store';
+import { useAuth } from '@/features/auth';
+import { paths } from './paths';
 
-interface ProtectedRouteProps {
+interface PublicRouteProps {
     children: React.ReactNode;
 }
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const PublicRoute = ({ children }: PublicRouteProps) => {
     const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
         return (
             <Box
-                data-testid="auth-loading"
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -26,8 +26,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         );
     }
 
-    if (!isAuthenticated) {
-        return <Navigate to="/login" replace />;
+    if (isAuthenticated) {
+        return <Navigate to={paths.dashboard} replace />;
     }
 
     return <>{children}</>;

@@ -2,12 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { useAuth } from '../store/useAuth';
-import authReducer from '../store/authSlice';
-import * as authApi from '../api/auth';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import authReducer from '@/features/auth/store/authSlice';
+import * as authApi from '@/features/auth/api';
 import React from 'react';
 
-vi.mock('../api/auth');
+vi.mock('@/features/auth/api');
 
 const createTestStore = () =>
     configureStore({

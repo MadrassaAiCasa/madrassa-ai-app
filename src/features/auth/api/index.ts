@@ -5,4 +5,4 @@ export {
     setAccessToken as setAuthToken,
     getAccessToken as getAuthToken,
     BASE_URL,
-} from '../client';
+} from './client';
