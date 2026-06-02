@@ -1,4 +1,4 @@
-export { mockStore, hasRefreshToken } from './mockStore';
+export { mockStore, hasRefreshToken, setMockAuthenticated } from './mockStore';
 export type { MockUser, SessionResponse, RefreshResponse, LoginRequest } from './mockStore';
 
 import { loginHandlers } from './login';

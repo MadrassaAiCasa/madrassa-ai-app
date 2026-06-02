@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { mockStore } from './mockStore';
+import { mockStore, setMockAuthenticated } from './mockStore';
 
 export const loginHandlers = [
     // POST /auth/login - authenticate user and issue tokens
@@ -26,9 +26,8 @@ export const loginHandlers = [
             return HttpResponse.json({ error: 'Invalid credentials' }, { status: 401 });
         }
 
-        // Mock successful login
-        // In real app: verify password hash, check isActive, check isLocked
-        mockStore.isAuthenticated = true;
+        setMockAuthenticated(true);
+        mockStore.refreshTokenExpiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
 
         return HttpResponse.json(
             {

@@ -8,6 +8,7 @@ afterAll(() => server.close());
 
 describe('GET /auth/session', () => {
     beforeEach(() => {
+        mockStore.isAuthenticated = false;
         mockStore.refreshTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
     });
 
@@ -18,6 +19,7 @@ describe('GET /auth/session', () => {
     });
 
     it('returns 401 when refresh token is expired', async () => {
+        mockStore.isAuthenticated = true;
         mockStore.refreshTokenExpiresAt = new Date(Date.now() - 1000).toISOString();
 
         const response = await fetch('/auth/session', {
@@ -28,6 +30,8 @@ describe('GET /auth/session', () => {
     });
 
     it('returns user data when refresh token is valid', async () => {
+        mockStore.isAuthenticated = true;
+
         const response = await fetch('/auth/session', {
             headers: { Cookie: 'refreshToken=mock-refresh-token' },
         });
