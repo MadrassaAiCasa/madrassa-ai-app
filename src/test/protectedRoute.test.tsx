@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ProtectedRoute } from '../components/auth/ProtectedRoute';
-import { useAuth } from '../store';
+import { ProtectedRoute } from '@/routes/ProtectedRoute';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
-vi.mock('../store');
+vi.mock('@/features/auth/hooks/useAuth');
 
 const mockUseAuth = useAuth as ReturnType<typeof vi.fn>;
 

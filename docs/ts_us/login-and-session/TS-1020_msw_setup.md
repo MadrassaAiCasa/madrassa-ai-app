@@ -81,42 +81,60 @@ eslint.config.js           → Vitest ESLint rules
 
 #### mockStore.ts
 
-In-memory store holding test user:
+In-memory store holding the demo user plus session bookkeeping:
 
 ```ts
-{
-  id: 'user-1',
-  username: 'admin',
-  email: 'admin@madrassa.ai',
-  passwordHash: '$2b$12$...', // plain: 'password123'
-  roles: ['Admin'],
-  isActive: true,
-  isLocked: false
-}
+mockStore = {
+    user: {
+        id: '1',
+        username: 'admin',
+        email: 'admin@example.com',
+        password: 'password123', // plain text, mock only
+        roles: ['Admin', 'Superadmin'],
+    },
+    isAuthenticated: readPersistedAuth(), // seeded from localStorage
+    accessToken: 'mock-access-token-12345',
+    expiresAt, // ISO, +1h
+    refreshToken: 'mock-refresh-token',
+    refreshTokenExpiresAt, // ISO
+};
 ```
+
+Exports:
+
+- `setMockAuthenticated(value)` — sets `isAuthenticated` **and** writes/removes the
+  `mock_session_active` key in `localStorage` (no-ops in node/test).
+- `hasRefreshToken(request)` — returns `false` immediately if not authenticated
+  (an explicit logout always wins); otherwise validates cookie expiry when a real
+  `Cookie` header is present (node/test), else returns `true`.
+
+The browser MSW worker cannot read back the real httpOnly cookie, so
+`localStorage` is the persistence stand-in: login survives a reload, logout clears it.
 
 #### login.ts
 
-- `POST /auth/login` — body: `{ username, password }`
-- Returns 400 if username or password missing
-- Returns 401 if password hash doesn't match
-- Returns 200 with `{ accessToken: string }` + `refreshToken` httpOnly cookie on success
+- `POST /auth/login` — body: `{ username | email, password }`
+- Returns 400 if identity or password missing
+- Returns 401 if credentials don't match the demo user
+- On success: `setMockAuthenticated(true)`, refreshes `refreshTokenExpiresAt`, returns
+  200 with `{ accessToken, expiresAt }` + `refreshToken` httpOnly cookie
 
 #### session.ts
 
-- `GET /auth/session` — reads `Authorization: Bearer <token>` header
-- Returns 401 if no token or expired token
-- Returns 200 with `{ user: {...}, expiresAt: ISO string }` on valid token
+- `GET /auth/session` — gated by `hasRefreshToken(request)`
+- Returns 401 if not authenticated / expired
+- Returns 200 with `{ user, expiresAt }` when valid
 
 #### refresh.ts
 
-- `POST /auth/refresh` — reads `refreshToken` httpOnly cookie
-- Returns 401 if no cookie or expired
-- Returns 200 with new `{ accessToken: string }` + rotates cookie on success
+- `POST /auth/refresh` — gated by `hasRefreshToken(request)`
+- Returns 401 if not authenticated / expired
+- Returns 200 with new `{ accessToken, expiresAt }` + rotates cookie on success
 
 #### logout.ts
 
-- `POST /auth/logout` — clears refreshToken cookie, returns 200
+- `POST /auth/logout` — `setMockAuthenticated(false)` (clears the persisted flag),
+  returns **204 No Content**
 
 ### Test Coverage
 
@@ -127,7 +145,15 @@ In-memory store holding test user:
 
 ## Notes
 
-- `VITE_USE_MOCKS=true` env var toggles MSW on/off (off by default)
-- Tests use `server.ts` (server-side MSW) instead of browser worker
-- Test user passwordHash is a bcrypt hash of `'password123'`
-- MSW handlers are endpoint-specific files, merged in `handlers/index.ts`
+- `VITE_USE_MOCKS=true` env var toggles MSW on/off (on by default in `.env`)
+- Tests use `server.ts` (server-side MSW) instead of the browser worker
+- Demo credentials: `admin` / `password123` (plain text in the mock store)
+- MSW handlers are endpoint-specific files, merged in `handlers/auth/index.ts`
+- **setUp.ts caches the `worker.start()` promise.** React StrictMode invokes the
+  startup effect twice; caching the promise makes the second call await the _same_
+  activation instead of starting the worker twice ("already enabled" error) or
+  resolving early — which previously let `GET /auth/session` leak through to the Vite
+  dev server (returning `index.html`) and falsely authenticate the user.
+- Session persistence is a `localStorage` flag (`mock_session_active`), since the
+  browser worker can't replicate a real httpOnly refresh cookie. To switch to a real
+  backend instead, see [TS-1022](./TS-1022_auth_api_service.md#real-api-server).

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { User } from '../api/auth/types';
+import type { User } from '../api/types';
 
 export interface AuthTokens {
     accessToken: string | null;

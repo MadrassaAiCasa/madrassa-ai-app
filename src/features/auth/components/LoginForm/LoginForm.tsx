@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Alert, Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../store';
+import { paths } from '@/routes/paths';
+import { useAuth } from '../../hooks/useAuth';
 
 export const LoginForm = () => {
     const { login, isLoading } = useAuth();
@@ -16,7 +17,7 @@ export const LoginForm = () => {
 
         try {
             await login({ username, password });
-            navigate('/dashboard', { replace: true });
+            navigate(paths.dashboard, { replace: true });
         } catch {
             setError('Invalid username or password');
         }

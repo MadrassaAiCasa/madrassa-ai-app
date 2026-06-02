@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
 import { server } from '../mocks/server';
-import { authApi, setAccessToken, getAccessToken } from '../api/auth';
+import { authApi, setAccessToken, getAccessToken } from '@/features/auth/api';
 import { mockStore } from '../mocks/handlers/auth';
 
 beforeAll(() => server.listen());

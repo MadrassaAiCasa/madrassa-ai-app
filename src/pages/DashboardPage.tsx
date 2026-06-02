@@ -1,14 +1,15 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../store';
+import { useAuth } from '@/features/auth';
+import { paths } from '@/routes/paths';
 
-export const Dashboard = () => {
+export const DashboardPage = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
         await logout();
-        navigate('/login', { replace: true });
+        navigate(paths.login, { replace: true });
     };
 
     return (
