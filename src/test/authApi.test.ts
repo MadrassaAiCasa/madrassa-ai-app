@@ -46,6 +46,8 @@ describe('authApi', () => {
 
     describe('getSession', () => {
         it('returns user and expiresAt on valid session', async () => {
+            mockStore.isAuthenticated = true;
+
             const result = await authApi.getSession();
 
             expect(result.user).toBeDefined();
@@ -56,6 +58,8 @@ describe('authApi', () => {
 
     describe('refresh', () => {
         it('returns new access token', async () => {
+            mockStore.isAuthenticated = true;
+
             const result = await authApi.refresh();
 
             expect(result.accessToken).toBeDefined();
@@ -63,6 +67,7 @@ describe('authApi', () => {
         });
 
         it('updates access token in memory', async () => {
+            mockStore.isAuthenticated = true;
             const initialToken = 'initial-token';
             setAccessToken(initialToken);
 

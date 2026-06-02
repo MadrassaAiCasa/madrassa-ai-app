@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
-export const BASE_URL = '/api';
+// Empty by default: requests are relative ("/auth/..."), which MSW intercepts.
+// Set VITE_API_BASE_URL (e.g. http://localhost:3001) to talk to the real server.
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 
 let accessToken: string | null = null;
 
@@ -47,7 +49,6 @@ export const createApiClient = (baseUrl: string = ''): AxiosInstance => {
                     return instance(originalRequest);
                 } catch {
                     setAccessToken(null);
-                    window.location.href = '/login';
                     return Promise.reject(error);
                 }
             }
@@ -68,7 +69,7 @@ const refreshAccessToken = async (): Promise<string> => {
 
     refreshPromise = (async () => {
         const response = await axios.post<{ accessToken: string; expiresAt: string }>(
-            '/auth/refresh',
+            `${BASE_URL}/auth/refresh`,
             {},
             { withCredentials: true }
         );
@@ -83,4 +84,4 @@ const refreshAccessToken = async (): Promise<string> => {
     }
 };
 
-export const apiClient = createApiClient();
+export const apiClient = createApiClient(BASE_URL);

@@ -43,6 +43,11 @@ export const useAuth = () => {
         dispatch(setLoading(true));
         try {
             const session = await authApi.getSession();
+            // Guard against a non-JSON response (e.g. dev-server HTML leaking through)
+            // being mistaken for a valid session.
+            if (!session?.user) {
+                throw new Error('Invalid session response');
+            }
             dispatch(
                 setCredentials({
                     user: session.user,

@@ -4,7 +4,8 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { useAuth } from './store';
-import { ProtectedRoute, LoginForm } from './components/auth';
+import { ProtectedRoute, PublicRoute, LoginForm } from './components/auth';
+import { Dashboard } from './components/dashboard/Dashboard';
 import enableMocking from './mocks/setUp';
 import './App.css';
 
@@ -25,14 +26,19 @@ const AppContent = () => {
 
     return (
         <Routes>
-            <Route path="/login" element={<LoginForm />} />
+            <Route
+                path="/login"
+                element={
+                    <PublicRoute>
+                        <LoginForm />
+                    </PublicRoute>
+                }
+            />
             <Route
                 path="/dashboard"
                 element={
                     <ProtectedRoute>
-                        <div className="app">
-                            <h1>Dashboard</h1>
-                        </div>
+                        <Dashboard />
                     </ProtectedRoute>
                 }
             />

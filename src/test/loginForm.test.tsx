@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { LoginForm } from '../components/auth/LoginForm';
 import { useAuth } from '../store';
 
@@ -22,7 +23,11 @@ describe('LoginForm', () => {
     });
 
     it('renders login form', () => {
-        render(<LoginForm />);
+        render(
+            <MemoryRouter>
+                <LoginForm />
+            </MemoryRouter>
+        );
 
         expect(screen.getByLabelText(/username or email/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
@@ -40,7 +45,11 @@ describe('LoginForm', () => {
             restoreSession: vi.fn(),
         });
 
-        render(<LoginForm />);
+        render(
+            <MemoryRouter>
+                <LoginForm />
+            </MemoryRouter>
+        );
 
         fireEvent.change(screen.getByLabelText(/username or email/i), {
             target: { value: 'admin' },
@@ -69,7 +78,11 @@ describe('LoginForm', () => {
             restoreSession: vi.fn(),
         });
 
-        render(<LoginForm />);
+        render(
+            <MemoryRouter>
+                <LoginForm />
+            </MemoryRouter>
+        );
 
         fireEvent.change(screen.getByLabelText(/username or email/i), {
             target: { value: 'admin' },
@@ -94,7 +107,11 @@ describe('LoginForm', () => {
             restoreSession: vi.fn(),
         });
 
-        render(<LoginForm />);
+        render(
+            <MemoryRouter>
+                <LoginForm />
+            </MemoryRouter>
+        );
 
         expect(screen.getByLabelText(/username or email/i)).toBeDisabled();
         expect(screen.getByLabelText(/password/i)).toBeDisabled();
@@ -111,7 +128,11 @@ describe('LoginForm', () => {
             restoreSession: vi.fn(),
         });
 
-        render(<LoginForm />);
+        render(
+            <MemoryRouter>
+                <LoginForm />
+            </MemoryRouter>
+        );
 
         expect(screen.getByRole('button')).toHaveTextContent(/signing in/i);
     });
