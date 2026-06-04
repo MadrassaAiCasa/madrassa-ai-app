@@ -40,8 +40,8 @@ Establish the branching and merge strategy for the project. Developers work on f
 
 - **Branch off:** `develop`
 - **Merge into:** `develop`
-- **Naming Convention:** `(us/ts/bug_ref)-short_description`
-- **Usage:** Used for developing new features, enhancements, or non-urgent bug fixes.
+- **Naming Convention:** `feature/<snake_case_title>` or `fix/<snake_case_title>` — e.g. `feature/product_list`, `fix/cart_total`
+- **Usage:** One branch per feature. Each branch contains as many commits as there are US/TS tasks inside it. One PR per feature, not per task.
 
 ### 2. Hotfix Branches (`hotfix/*`)
 
@@ -50,8 +50,31 @@ Establish the branching and merge strategy for the project. Developers work on f
 - **Naming Convention:** `hotfix/vX.Y.Z`
 - **Usage:** Used for immediate production patches. Once fixed, the PR must target both `main` (with a new tag) and `develop` to prevent regression.
 
+## Commit Messages
+
+We use **Conventional Commits**: `<type>(<ref>): <subject>`.
+
+- **type:** `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, etc.
+- **ref (scope):** the task reference — `US<EE><NN>` or `TS<EE><NN><TT>`. Omit the
+  scope for non-task commits (e.g. `docs: ...`, `chore: ...`).
+- **subject:** short, imperative, lower-case.
+- **Body (optional):** blank line after the title, then what was done and why.
+
+Example:
+
+```
+feat(TS040101): add product list page
+
+Add the product list UI and data wiring. Presentation only;
+logic handled by the useProducts hook. Includes unit tests.
+```
+
+---
+
 ## Notes
 
 - Never push directly to `main` or `develop` — all changes go through PRs
 - Feature branches are deleted after merge
 - Hotfixes require two PRs: one to `main` (with version tag) and one to `develop`
+- **One branch per feature.** Each feature branch contains as many commits as there are US/TS tasks inside it. One PR per feature, not per task.
+- **Commit format per task:** Conventional Commits `<type>(<ref>): <subject>` — e.g. `feat(TS040101): add product list page`
