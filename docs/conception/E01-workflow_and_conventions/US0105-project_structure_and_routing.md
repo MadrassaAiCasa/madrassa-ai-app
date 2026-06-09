@@ -15,7 +15,7 @@ Each feature is self-contained with its own pages, components, api, hooks, types
 ```
 src/
   features/
-    auth/
+    products/
     users/
   shared/
     ui/          → design system primitives (Button, Input, Card)
@@ -27,7 +27,7 @@ src/
 
 ```
 features/
-  auth/
+  products/
     components/
     api/
     hooks/
@@ -62,14 +62,15 @@ UserCard/
 pages/ → route view components (thin, connect routing to children)
 routes/
   index.tsx         → all Routes defined here
-  paths.ts          → path constants (Login: '/login', etc.)
-  ProtectedRoute.tsx → auth guard wrapper
+  paths.ts          → path constants (Home: '/', Products: '/products', etc.)
+  RouteGuard.tsx    → optional route guard wrapper
 ```
 
 - `pages/` for route views only — no routing logic
 - `routes/` for routing config only
 - `paths.ts` centralizes all path strings
-- `ProtectedRoute` redirects unauthenticated users to `/login`
+- a **route guard** wraps routes that need a condition checked before rendering
+  (e.g. redirect when some requirement isn't met)
 
 ## 5. Presentation/Logic Separation
 

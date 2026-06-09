@@ -16,3 +16,4 @@
 *.css eol=lf
 *.json eol=lf
 *.html eol=lf
+*.md eol=lf
